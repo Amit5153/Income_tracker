@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Profit Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.11/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Monthly Profit Tracker</h1>
+
+        <!-- Input Form -->
+        <div class="input-section">
+            <label for="month">Month:</label>
+            <select id="month">
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+            </select>
+
+            <label for="income">Total Income:</label>
+            <input type="number" id="income" placeholder="Enter income" step="0.01">
+
+            <label for="expenses">Total Expenses:</label>
+            <input type="number" id="expenses" placeholder="Enter expenses" step="0.01">
+            
+            <button onclick="calculateProfit()">Add/Update Data</button>
+        </div>
+
+        <!-- Display Section -->
+        <div class="display-section">
+            <h2>Monthly Profit Summary</h2>
+            <table id="profitTable">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Income</th>
+                        <th>Expenses</th>
+                        <th>Profit</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic rows will be added here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <div id="totals">
+            <p id="totalIncome">Total Income: ₹0.00</p>
+            <p id="totalExpenses">Total Expenses: ₹0.00</p>
+            <p id="totalProfit">Total Profit: ₹0.00</p>
+        </div>
+        <!-- Chart Toggle Options -->
+        <div class="chart-options">
+            <h3>Chart Options</h3>
+            <button onclick="changeChartType('bar')">Bar Chart</button>
+            <button onclick="changeChartType('line')">Line Chart</button>
+
+            
+            
+
+            <div>
+                <input type="checkbox" id="showIncome" checked onchange="updateChart()">
+                <label for="showIncome">Show Income</label>
+
+                <input type="checkbox" id="showExpenses" checked onchange="updateChart()">
+                <label for="showExpenses">Show Expenses</label>
+
+                <input type="checkbox" id="showProfit" checked onchange="updateChart()">
+                <label for="showProfit">Show Profit</label>
+            </div>
+        </div>
+
+
+        <div class="export-import-section">
+            <h3>Export & Import Options</h3>
+            <button onclick="exportToCSV()">Export to CSV</button>
+            <button onclick="exportToPDF()">Export to PDF</button>
+            
+            <input type="file" id="importCSV" accept=".csv" onchange="importFromCSV(event)">
+            <label for="importCSV">Import from CSV</label>
+        </div>
+        
+        <!-- Profit Chart -->
+        <canvas id="profitChart" width="400" height="200"></canvas>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.9/jspdf.plugin.autotable.min.js"></script> -->
+
+    <script src="app.js"></script>
+</body>
+</html>
