@@ -177,8 +177,10 @@ function exportToCSV() {
 }
 
 function exportToPDF() {
+
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF("portrait", "pt", "A4");
+    
 
     // PDF Title
     doc.setFontSize(18);
@@ -198,6 +200,10 @@ function exportToPDF() {
     // Add table rows and data content
     const rowHeight = 20;
     let yPosition = 95;
+    let totalIncome = 0;
+    let totalExpenses = 0;
+    let totalProfit = 0;
+    
     doc.setTextColor("#333333");
     doc.setFont("helvetica", "normal");
 
@@ -214,17 +220,33 @@ function exportToPDF() {
         doc.text(item.expenses.toFixed(2).toString(), 310, yPosition);
         doc.text(item.profit.toFixed(2).toString(), 440, yPosition);
 
+        // Accumulate totals
+        totalIncome += item.income;
+        totalExpenses += item.expenses;
+        totalProfit += item.profit;
+
         yPosition += rowHeight;
     });
+
+    // Add Total Row
+    doc.setFont("helvetica", "bold");
+    doc.setFillColor("#0074D9"); // Background color for total row
+    doc.setTextColor("#ffffff"); // Text color for total row
+    doc.rect(40, yPosition - rowHeight + 5, 500, rowHeight, "F");
+    doc.text("Totals", 50, yPosition);
+    doc.text(totalIncome.toFixed(2).toString(), 180, yPosition);
+    doc.text(totalExpenses.toFixed(2).toString(), 310, yPosition);
+    doc.text(totalProfit.toFixed(2).toString(), 440, yPosition);
 
     // Add Footer Text
     doc.setFontSize(10);
     doc.setTextColor("#666666");
-    doc.text("Generated on: " + new Date().toLocaleDateString(), 40, yPosition + 20);
+    doc.text("Generated on: " + new Date().toLocaleDateString(), 40, yPosition + 40);
     
     // Save PDF
     doc.save("Monthly_Profit_Report.pdf");
 }
+
 function importFromCSV(event) {
     const file = event.target.files[0];
     if (file && file.type === "text/csv") {
